@@ -26,10 +26,16 @@ function renderButtons() {
         // Adding the button to the buttons-view div
         $("#buttons-view").append(a);
     }
+    console.log(movies)
 }
+
 // This function handles events where one button is clicked
 $("#add-movie").on("click", function(event) {
     event.preventDefault();
+
+    if (movies.length === 10) {
+        return;
+    }
     // This line grabs the input from the textbox
     var movie = $("#movie-input").val().trim();
     // The movie from the textbox is then added to our array
@@ -37,16 +43,17 @@ $("#add-movie").on("click", function(event) {
     // Calling renderButtons which handles the processing of our movie array
     renderButtons();
 });
-// Generic function for displaying the movieInfo
-$(document).on("click", ".movie", displayMovieInfo);
+
 // Calling the renderButtons function to display the initial buttons
 renderButtons();
 
 ///////////////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 // Event listener for all button elements
-$("button").on("click", function() {
+$(document).on("click", ".movie", function() {
     // In this case, the "this" keyword refers to the button that was clicked
     var data = $(this).attr("data-name");
+
+    console.log(data);
     // Constructing a URL to search Giphy for the name Movie
     var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
         data + "&api_key=dc6zaTOxFJmzC&limit=10";
@@ -60,6 +67,8 @@ $("button").on("click", function() {
         .done(function(response) {
             // Storing an array of results in the results variable
             var results = response.data;
+
+            console.log(results);
             // Looping over every result item
             for (var i = 0; i < results.length; i++) {
                 // Only taking action if the photo has an appropriate rating
@@ -82,7 +91,25 @@ $("button").on("click", function() {
                     // Prepending the gifDiv to the "#gifs-appear-here" div in the HTML
                     $("#gifs-appear-here").prepend(gifDiv);
                 }
+
             }
+
+        $(".item").on("click", function() {
+      // The attr jQuery method allows us to get or set the value of any attribute on our HTML element
+      var state = $(this).attr("data-state");
+      // If the clicked image's state is still, update its src attribute to what its data-animate value is.
+      // Then, set the image's data-state to animate
+      // Else set src to the data-still value
+      if (state === "still") {
+        $(this).attr("src", $(this).attr("data-animate"));
+        $(this).attr("data-state", "animate");
+      } else {
+        $(this).attr("src", $(this).attr("data-still"));
+        $(this).attr("data-state", "still");
+      }
+    });
+
+
         });
 });
 
