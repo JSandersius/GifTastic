@@ -69,6 +69,7 @@ $(document).on("click", ".movie", function() {
             var results = response.data;
 
             console.log(results);
+
             // Looping over every result item
             for (var i = 0; i < results.length; i++) {
                 // Only taking action if the photo has an appropriate rating
@@ -80,10 +81,13 @@ $(document).on("click", ".movie", function() {
                     // Creating a paragraph tag with the result item's rating
                     var p = $("<p>").text("Rating: " + rating);
                     // Creating an image tag
-                    var dataImage = $("<img>");
+                    var dataImage = $("<img class='gif'>");
                     // Giving the image tag an src attribute of a proprty pulled off the
                     // result item
-                    dataImage.attr("src", results[i].images.fixed_height.url);
+                    dataImage.attr("src",  results[i].images.fixed_height.url);
+                    dataImage.attr("data-still", results[i].images.fixed_height_still.url);
+                    dataImage.attr("data-animate", results[i].images.fixed_height.url);
+                    dataImage.attr("data-state", "animate");
                     // Appending the paragraph and personImage we created to the "gifDiv" div we created
                     gifDiv.append(p);
                     gifDiv.append(dataImage);
@@ -94,7 +98,7 @@ $(document).on("click", ".movie", function() {
 
             }
 
-        $(".item").on("click", function() {
+        $(".gif").on("click", function() {
       // The attr jQuery method allows us to get or set the value of any attribute on our HTML element
       var state = $(this).attr("data-state");
       // If the clicked image's state is still, update its src attribute to what its data-animate value is.
