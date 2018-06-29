@@ -97,7 +97,6 @@ $(document).on("click", ".movie", function () {
                 }
 
             }
-
             $(".gif").on("click", function () {
                 // The attr jQuery method allows us to get or set the value of any attribute on our HTML element
                 var state = $(this).attr("data-state");
